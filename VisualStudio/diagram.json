@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "author": "AirsoftDomination",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 150, "attrs": {} },
+    
+    { "type": "wokwi-pushbutton", "id": "btnBlue", "top": 50, "left": -50, "attrs": { "color": "blue", "label": "BLUE" } },
+    { "type": "wokwi-pushbutton", "id": "btnRed", "top": 50, "left": 350, "attrs": { "color": "red", "label": "RED" } },
+
+    { "type": "wokwi-led", "id": "ledB1", "top": -80, "left": -20, "attrs": { "color": "blue" } },
+    { "type": "wokwi-led", "id": "ledB2", "top": -80, "left": 10, "attrs": { "color": "blue" } },
+    { "type": "wokwi-led", "id": "ledB3", "top": -80, "left": 40, "attrs": { "color": "blue" } },
+    { "type": "wokwi-led", "id": "ledB4", "top": -80, "left": 70, "attrs": { "color": "blue" } },
+    { "type": "wokwi-led", "id": "ledB5", "top": -80, "left": 100, "attrs": { "color": "blue" } },
+
+    { "type": "wokwi-led", "id": "ledR1", "top": -80, "left": 220, "attrs": { "color": "red" } },
+    { "type": "wokwi-led", "id": "ledR2", "top": -80, "left": 250, "attrs": { "color": "red" } },
+    { "type": "wokwi-led", "id": "ledR3", "top": -80, "left": 280, "attrs": { "color": "red" } },
+    { "type": "wokwi-led", "id": "ledR4", "top": -80, "left": 310, "attrs": { "color": "red" } },
+    { "type": "wokwi-led", "id": "ledR5", "top": -80, "left": 340, "attrs": { "color": "red" } },
+    { "type": "wokwi-tm1637-7segment", "id": "sevseg", "top": 350, "left": -10, "attrs": { "color": "red" } }
+  ],
+  "connections": [
+    ["esp:TX", "$serialMonitor:RX", "", []],
+    ["esp:RX", "$serialMonitor:TX", "", []],
+
+    ["sevseg:VCC", "esp:3V3", "red", []],
+    ["sevseg:GND", "esp:GND.1", "black", []],
+    ["sevseg:DIO", "esp:25", "green", []],
+    ["sevseg:CLK", "esp:33", "blue", []],
+
+    ["btnBlue:1.l", "esp:26", "blue", []],
+    ["btnBlue:2.l", "esp:GND.2", "black", []],
+
+    ["btnRed:1.l", "esp:27", "orange", []],
+    ["btnRed:2.l", "esp:GND.3", "black", []],
+
+    ["ledB1:A", "esp:2", "blue", []],
+    ["ledB2:A", "esp:4", "blue", []],
+    ["ledB3:A", "esp:16", "blue", []],
+    ["ledB4:A", "esp:17", "blue", []],
+    ["ledB5:A", "esp:5", "blue", []],
+
+    ["ledR1:A", "esp:18", "red", []],
+    ["ledR2:A", "esp:19", "red", []],
+    ["ledR3:A", "esp:21", "red", []],
+    ["ledR4:A", "esp:22", "red", []],
+    ["ledR5:A", "esp:23", "red", []],
+
+    ["ledB1:C", "esp:GND.1", "black", []],
+    ["ledB2:C", "esp:GND.1", "black", []],
+    ["ledB3:C", "esp:GND.1", "black", []],
+    ["ledB4:C", "esp:GND.1", "black", []],
+    ["ledB5:C", "esp:GND.1", "black", []],
+
+    ["ledR1:C", "esp:GND.1", "black", []],
+    ["ledR2:C", "esp:GND.1", "black", []],
+    ["ledR3:C", "esp:GND.1", "black", []],
+    ["ledR4:C", "esp:GND.1", "black", []],
+    ["ledR5:C", "esp:GND.1", "black", []]
+  ]
+}

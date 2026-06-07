@@ -1,0 +1,10 @@
+.pio/
+.vscode/
+.idea/
+.gradle/
+local.properties
+build/
+app/build/
+pdf_text/
+extract_pdfs.py
+pdf*.txt
