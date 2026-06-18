@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esp.viewmodel.GameViewModel
 
+// Ekran Gry
 @Composable
 fun GameScreen(viewModel: GameViewModel, onGameEnd: (Int, Int, String) -> Unit) {
     val status = viewModel.gameStatus

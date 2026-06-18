@@ -1,36 +1,26 @@
-/*
- * ========================================
- * API HANDLERS - Obsługa zapytań HTTP
- * ========================================
- * Handlery REST API dla komunikacji
- * z aplikacją mobilną przez Retrofit.
- * Formaty odpowiedzi: JSON (ArduinoJson).
- * ========================================
- */
-
 #ifndef API_HANDLERS_H
 #define API_HANDLERS_H
 
+// Serwer rest api tworzy JSON i naglowki cors
 #include <WebServer.h>
 #include <ArduinoJson.h>
 #include "game_logic.h"
 #include "led_control.h"
 
-// Referencja do serwera (zdefiniowanego w main.cpp)
+// Referencja do serwera
 extern WebServer server;
 
-// ---- Nagłówki CORS (żeby przeglądarka mogła odpytywać API) ----
+// Nagłówki CORS (żeby przeglądarka mogła odpytywać API)
 void setCorsHeaders() {
     server.sendHeader("Access-Control-Allow-Origin", "*");
     server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     server.sendHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
-// ---- Handler: GET /status ----
-// Ogólny status ESP (do sprawdzenia łączności)
+// Handler: GET /status
+// Ogólny status ESP
 void handleStatus() {
     setCorsHeaders();
-
     JsonDocument doc;
     doc["device"] = "AirsoftDominationPoint";
     doc["version"] = "1.0";
@@ -43,8 +33,8 @@ void handleStatus() {
     server.send(200, "application/json", response);
 }
 
-// ---- Handler: GET /game/status ----
-// Aktualny stan gry (odpytywany co sekundę przez apkę)
+// Handler: GET /game/status
+// Aktualny stan gry (odpytywany co sekundę)
 void handleGameStatus() {
     setCorsHeaders();
 
@@ -60,7 +50,7 @@ void handleGameStatus() {
     doc["redTime"] = game.redTime;
     doc["currentOwner"] = teamToString(game.currentOwner);
 
-    // Jeśli gra się skończyła, dodaj info o zwycięzcy
+    // Jeśli gra się skończyła dodaje info o zwycięzcy
     if (game.finished) {
         if (game.blueTime > game.redTime) {
             doc["winner"] = "blue";
@@ -76,7 +66,7 @@ void handleGameStatus() {
     server.send(200, "application/json", response);
 }
 
-// ---- Handler: POST /game/start ----
+// Handler: POST /game/start
 // Rozpoczęcie nowej gry (parametr: duration w sekundach)
 void handleGameStart() {
     setCorsHeaders();
@@ -109,7 +99,7 @@ void handleGameStart() {
     server.send(200, "application/json", response);
 }
 
-// ---- Handler: POST /game/stop ----
+// Handler: POST /game/stop
 // Ręczne zatrzymanie gry
 void handleGameStop() {
     setCorsHeaders();
@@ -141,7 +131,7 @@ void handleGameStop() {
     server.send(200, "application/json", response);
 }
 
-// ---- Handler: POST /game/press ----
+// Handler: POST /game/press
 // Symulacja wciśnięcia przycisku z aplikacji
 // (parametr: team = "blue" lub "red")
 void handleGamePress() {
@@ -179,7 +169,7 @@ void handleGamePress() {
     server.send(200, "application/json", response);
 }
 
-// ---- Handler: GET /history ----
+// Handler: GET /history
 // Lista zakończonych meczy (JSON array)
 void handleHistory() {
     setCorsHeaders();
@@ -201,13 +191,13 @@ void handleHistory() {
     server.send(200, "application/json", response);
 }
 
-// ---- Handler: OPTIONS (preflight CORS) ----
+// Handler: OPTIONS (preflight CORS)
 void handleOptions() {
     setCorsHeaders();
     server.send(204);
 }
 
-// ---- Rejestracja wszystkich endpointów ----
+// Rejestracja wszystkich endpointów
 void registerApiHandlers() {
     server.on("/status",      HTTP_GET,  handleStatus);
     server.on("/game/status", HTTP_GET,  handleGameStatus);
@@ -215,8 +205,6 @@ void registerApiHandlers() {
     server.on("/game/stop",   HTTP_POST, handleGameStop);
     server.on("/game/press",  HTTP_POST, handleGamePress);
     server.on("/history",     HTTP_GET,  handleHistory);
-
-    // Obsługa preflight CORS requests
     server.on("/game/start",  HTTP_OPTIONS, handleOptions);
     server.on("/game/stop",   HTTP_OPTIONS, handleOptions);
     server.on("/game/press",  HTTP_OPTIONS, handleOptions);
@@ -224,4 +212,4 @@ void registerApiHandlers() {
     Serial.println("[API] Endpointy zarejestrowane");
 }
 
-#endif // API_HANDLERS_H
+#endif

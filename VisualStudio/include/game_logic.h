@@ -1,16 +1,7 @@
-/*
- * ========================================
- * GAME LOGIC - Punkt Dominacji Airsoft
- * ========================================
- * Logika gry: odliczanie czasu, przypisywanie
- * kontroli do drużyn (niebieski/czerwony),
- * zapis wyników do historii.
- * ========================================
- */
-
 #ifndef GAME_LOGIC_H
 #define GAME_LOGIC_H
 
+// Zarzadzanie czasem liczenie sekund
 #include <Arduino.h>
 
 // Maksymalna liczba meczy w historii
@@ -23,7 +14,7 @@ enum TeamOwner {
     TEAM_RED
 };
 
-// Wynik jednego meczu (do historii)
+// Wynik jednego meczu w historii
 struct MatchResult {
     int id;
     int duration;      // czas trwania meczu w sekundach
@@ -36,7 +27,7 @@ struct MatchResult {
 struct GameState {
     bool gameActive;           // czy gra trwa
     bool finished;             // czy gra się właśnie zakończyła
-    int totalDuration;         // łączny czas gry (ustawiony na starcie)
+    int totalDuration;         // łączny czas gry ustawiony na starcie
     unsigned long startTime;   // millis() przy starcie gry
     int blueTime;              // sekundy kontroli niebieskich
     int redTime;               // sekundy kontroli czerwonych
@@ -50,7 +41,7 @@ MatchResult history[MAX_HISTORY];
 int historyCount = 0;
 int nextMatchId = 1;
 
-// ---- Funkcje gry ----
+// Funkcje gry
 
 // Resetowanie stanu gry
 void resetGame() {
@@ -132,7 +123,7 @@ void saveToHistory() {
         result.winner = "draw";
     }
 
-    // Przesunięcie historii jeśli pełna (FIFO)
+    // Przesunięcie historii jeśli pełna
     if (historyCount >= MAX_HISTORY) {
         for (int i = 0; i < MAX_HISTORY - 1; i++) {
             history[i] = history[i + 1];
@@ -149,8 +140,6 @@ void saveToHistory() {
 // Zakończenie gry
 void stopGame() {
     if (!game.gameActive) return;
-
-    // Policz ostatni odcinek kontroli
     updateControlTime();
 
     game.gameActive = false;
@@ -159,13 +148,11 @@ void stopGame() {
     // Zapisz do historii
     saveToHistory();
 
-    String winner = (game.blueTime > game.redTime) ? "BLUE" :
-                    (game.redTime > game.blueTime) ? "RED" : "DRAW";
-    Serial.println("[GAME] Gra zakończona! Blue: " + String(game.blueTime) +
-                   "s, Red: " + String(game.redTime) + "s, Zwycięzca: " + winner);
+    String winner = (game.blueTime > game.redTime) ? "BLUE" : (game.redTime > game.blueTime) ? "RED" : "DRAW";
+    Serial.println("[GAME] Gra zakończona! Blue: " + String(game.blueTime) + "s, Red: " + String(game.redTime) + "s, Zwycięzca: " + winner);
 }
 
-// Główna aktualizacja gry (wywoływana w loop())
+// Główna aktualizacja gry
 void updateGame() {
     if (!game.gameActive) return;
 
@@ -184,4 +171,4 @@ String teamToString(TeamOwner team) {
     }
 }
 
-#endif // GAME_LOGIC_H
+#endif

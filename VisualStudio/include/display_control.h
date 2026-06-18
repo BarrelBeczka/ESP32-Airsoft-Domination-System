@@ -1,6 +1,7 @@
 #ifndef DISPLAY_CONTROL_H
 #define DISPLAY_CONTROL_H
 
+// Wyświetlacz
 #include <TM1637Display.h>
 
 // Piny dla komunikacji z TM1637
@@ -26,7 +27,7 @@ void clearDisplay() {
     display.clear();
 }
 
-// Opcjonalne: wyświetlanie napisów, np. konca gry
+// Wyświetlenie End na koniec gry
 void showEnd() {
     uint8_t data[] = {
         SEG_A | SEG_F | SEG_G | SEG_E | SEG_D,             // E
@@ -37,4 +38,4 @@ void showEnd() {
     display.setSegments(data, 3, 1);
 }
 
-#endif // DISPLAY_CONTROL_H
+#endif 

@@ -5,28 +5,27 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-
+// Konfiguracja klienta Retrofit Do komunikacji z ESP32
 object EspRetrofitClient {
+    // Domyślny adres ESP32
     var baseUrl: String = "http://192.168.4.1/"
 
     private val jsonConfig = Json { ignoreUnknownKeys = true }
     private val contentType = "application/json".toMediaType()
-
+    // Statyczna instancja API
     val api: EspApiService by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(ScalarsConverterFactory.create()) // for string responses
-            .addConverterFactory(jsonConfig.asConverterFactory(contentType)) // for json responses
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(jsonConfig.asConverterFactory(contentType))
             .build()
             .create(EspApiService::class.java)
     }
 
-    // Helper function to dynamically update the base URL and recreate the API instance
-    // Note: Due to `by lazy`, we must manage recreation if URL changes at runtime.
-    // However, for this simple implementation, we can adjust the client.
-    
+    // Dynamiczna instancja API
     private var _api: EspApiService? = null
-    
+
+    // Pobieranie instancji APi z Aktualnym adresem IP
     fun getDynamicApi(): EspApiService {
         if (_api == null) {
             _api = Retrofit.Builder()
@@ -39,11 +38,12 @@ object EspRetrofitClient {
         return _api!!
     }
 
+    // Zmiana IP ESP32 gdy użytkownik zmieni ip
     fun updateBaseUrl(newUrl: String) {
         val urlToSet = if (newUrl.endsWith("/")) newUrl else "$newUrl/"
         if (baseUrl != urlToSet) {
             baseUrl = urlToSet
-            _api = null // Force recreation on next use
+            _api = null
         }
     }
 }

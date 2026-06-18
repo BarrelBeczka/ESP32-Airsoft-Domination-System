@@ -2,6 +2,7 @@ package com.example.esp.navigation
 
 import kotlinx.serialization.Serializable
 
+// Definicja Routes dla Jetpac Compose Navigation
 @Serializable
 object SetupRoute
 

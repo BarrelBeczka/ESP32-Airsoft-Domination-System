@@ -11,16 +11,23 @@ import androidx.compose.ui.Modifier
 import com.example.esp.navigation.AppNavigation
 import com.example.esp.ui.theme.ESPTheme
 
+// Jedyna aktywność aplikacji nawigacja dzięki @composable z jetpack compose navi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Rysowanie pod paskami systemowymi rozciągnięcie na cały ekran
         enableEdgeToEdge()
+
+        // Ustawienie zawartości ekranu - Jetpack Compose
         setContent {
             ESPTheme {
+                // Szkielet ekranu sprawdzający marginesy
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     androidx.compose.foundation.layout.Box(
                         modifier = Modifier.padding(innerPadding)
                     ) {
+                        // Nawigacja między ekranami
                         AppNavigation()
                     }
                 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.example.esp.data.model.MatchResult
 import com.example.esp.viewmodel.GameViewModel
 
+// Ekran Histoii
 @Composable
 fun HistoryScreen(viewModel: GameViewModel, onBack: () -> Unit) {
     

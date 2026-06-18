@@ -1,7 +1,7 @@
 import socket
 import threading
 
-# Konfiguracja
+# Konfiguracja mostu miedzy wowki a androidem 
 LOCAL_WOKWI_HOST = '127.0.0.1'
 LOCAL_WOKWI_PORT = 8180      # Port na którym domyślnie nasłuchuje Wokwi
 
@@ -38,14 +38,11 @@ def main():
     # Bindowanie na 0.0.0.0, aby Android (10.0.2.2) mógł się połączyć
     server.bind(('0.0.0.0', RELAY_PORT))
     server.listen(5)
-    print("==================================================")
     print(f"[OK] TUNEL POSREDNICZACY (RELAY SERVER) URUCHOMIONY!")
     print(f"Nadsłuchuję dla Androida na porcie: {RELAY_PORT}")
     print(f"Przekierowuję ruch do Wokwi na: {LOCAL_WOKWI_HOST}:{LOCAL_WOKWI_PORT}")
-    print("==================================================")
     print(f"Wpisz w aplikacji Android następujący adres IP:")
     print(f"->  10.0.2.2:{RELAY_PORT}  <-")
-    print("==================================================")
 
     try:
         while True:

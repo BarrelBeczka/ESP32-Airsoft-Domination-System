@@ -11,6 +11,7 @@ import com.example.esp.data.network.EspRetrofitClient
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+// Mózg aplikacji przechowuje i zarządza całym UI
 class GameViewModel : ViewModel() {
 
     var gameStatus by mutableStateOf(GameStatus())
@@ -31,6 +32,7 @@ class GameViewModel : ViewModel() {
         EspRetrofitClient.updateBaseUrl(url)
     }
 
+    // Dzieki launch mamy asynchroniczne zapytania
     fun checkConnection(ip: String) {
         setEspIp(ip)
         viewModelScope.launch {
@@ -47,8 +49,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun startGame(duration: Int) {
-        // Zabezpieczenie przed przedwczesnym powrotem do ekranu wyników:
-        // Resetujemy w pamięci stary status "finished" zaraz przed wysłaniem komendy nowej gry
+        // Zabezpieczenie przed przedwczesnym powrotem do ekranu wyników
         gameStatus = gameStatus.copy(finished = false, gameActive = true)
         viewModelScope.launch {
             try {
@@ -78,7 +79,7 @@ class GameViewModel : ViewModel() {
             }
         }
     }
-
+    // Pętla odpytująca ESP32 o stan gry
     fun pollStatus() {
         viewModelScope.launch {
             while (true) {
@@ -87,7 +88,7 @@ class GameViewModel : ViewModel() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                delay(1000) // Czekaj 1 sekundę
+                delay(1000)
             }
         }
     }

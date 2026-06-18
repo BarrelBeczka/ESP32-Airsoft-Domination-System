@@ -1,6 +1,7 @@
 #ifndef LED_CONTROL_H
 #define LED_CONTROL_H
 
+// Diody
 #include <Arduino.h>
 #include "game_logic.h"
 
@@ -33,7 +34,7 @@ void setLedsOff() {
     blinkCount = 0;
 }
 
-// Zapala 5 diod konkretnego zespołu (a pozostałe gasi)
+// Zapala 5 diod konkretnego zespołu
 void setTeamColor(TeamOwner team) {
     if (team == TEAM_BLUE) {
         for (int i = 0; i < NUM_LEDS_PER_TEAM; i++) {
@@ -50,14 +51,14 @@ void setTeamColor(TeamOwner team) {
     }
 }
 
-// Efekt mrugania na koniec - mrugają diody drużyny, która wygrała
+// Efekt mrugania w kolor wygranej drużyny
 void blinkVictory(TeamOwner winner) {
     if (!game.finished) {
         blinkCount = 0;
         return;
     }
 
-    if (blinkCount >= 20) { // 10 cykli zapal-zgaś
+    if (blinkCount >= 20) {
         setLedsOff();
         return;
     }
@@ -88,7 +89,7 @@ void blinkVictory(TeamOwner winner) {
     }
 }
 
-// Podczas ostatnich 10 sekund (odliczanie) - bardzo szybkie mruganie paska aktualnej drużyny
+// Podczas ostatnich 10 sekund szybkie mruganie paska aktualnej drużyny
 void animateCountdown(int timeLeft) {
     unsigned long now = millis();
     if (now - lastBlinkTime > 100) {  // Szybkie mrugnięcie (100ms)
@@ -109,18 +110,16 @@ void animateCountdown(int timeLeft) {
     }
 }
 
-// Testowy, krótki błysk (zgodność wsteczna z main.cpp)
+// Testowy, krótki błysk
 void setAllLeds(int r, int g, int b) {
-    // Zapala po prostu wszystko by sprawdzić zasilanie
     for (int i = 0; i < NUM_LEDS_PER_TEAM; i++) {
         digitalWrite(BLUE_LEDS[i], HIGH);
         digitalWrite(RED_LEDS[i], HIGH);
     }
 }
 
-// Zgodność wsteczna z kodem przycisków w main.cpp, nie musi nic robić bo pętla główna i tak zaktualizuje ledy 
+// Zgodność wsteczna z kodem przycisków w main.cpp
 void animateCapture(TeamOwner newOwner) {
-    // W starej wersji robił tu przejście z gradientem, na zwykłych diodach tego nie robimy.
 }
 
 #endif

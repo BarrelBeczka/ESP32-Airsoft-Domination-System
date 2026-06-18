@@ -11,12 +11,14 @@ import com.example.esp.ui.screens.ResultScreen
 import com.example.esp.ui.screens.SetupScreen
 import com.example.esp.viewmodel.GameViewModel
 
+// Kontroler nawigacyjny aplikacji zarządza przechodzeniem miedzy ekranami
 @Composable
 fun AppNavigation(viewModel: GameViewModel = viewModel()) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = SetupRoute) {
-        
+
+        // Ekran Setup konfiguracja gry
         composable<SetupRoute> {
             SetupScreen(
                 viewModel = viewModel,
@@ -27,7 +29,7 @@ fun AppNavigation(viewModel: GameViewModel = viewModel()) {
                 }
             )
         }
-
+        // Ekran rozgrywki z przyciskami i timerem
         composable<GameRoute> {
             GameScreen(
                 viewModel = viewModel,
@@ -38,7 +40,7 @@ fun AppNavigation(viewModel: GameViewModel = viewModel()) {
                 }
             )
         }
-
+        // Ekran z wynikiem meczu
         composable<ResultRoute> {
             ResultScreen(
                 viewModel = viewModel,
@@ -52,7 +54,7 @@ fun AppNavigation(viewModel: GameViewModel = viewModel()) {
                 }
             )
         }
-
+        // Ekran z historią meczy
         composable<HistoryRoute> {
             HistoryScreen(
                 viewModel = viewModel,

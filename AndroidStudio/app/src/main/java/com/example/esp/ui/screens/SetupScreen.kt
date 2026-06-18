@@ -10,6 +10,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.esp.viewmodel.GameViewModel
 
+// Ekran startowy Aplikacji
 @Composable
 fun SetupScreen(viewModel: GameViewModel, onGameStart: (Int, String) -> Unit) {
     var duration by remember { mutableStateOf("10") }

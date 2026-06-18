@@ -11,6 +11,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.esp.viewmodel.GameViewModel
 
+// Ekran wyników
 @Composable
 fun ResultScreen(
     viewModel: GameViewModel,
